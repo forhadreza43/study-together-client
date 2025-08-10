@@ -1,18 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAuth from "../../hook/useAuth";
 import { useEffect, useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 import Loading from "../../components/Loading";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 import AssignmentCard from "../../components/AssignmentCard";
-
+import AssignmentCardSkeleton from "../../components/skeleton/AssignmentCardSkeleton";
 const Assignments = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const [deleteId, setDeleteId] = useState(null);
   const [difficulty, setDifficulty] = useState("");
   const [search, setSearch] = useState("");
@@ -67,7 +66,7 @@ const Assignments = () => {
     return () => debounced.cancel();
   }, [search, debounced]);
 
-  if (isLoading) return <Loading />;
+  // if (!user) return <Loading />;
 
   return (
     <div className="w-full mx-auto py-10">
@@ -101,14 +100,25 @@ const Assignments = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {assignments.map((assignment) => (
-          <AssignmentCard
-            key={assignment._id}
-            assignment={assignment}
-            user={user}
-            onDeleteClick={setDeleteId}
-          />
-        ))}
+        {isLoading ||
+          (!user && (
+            <>
+              <AssignmentCardSkeleton />
+              <AssignmentCardSkeleton />
+              <AssignmentCardSkeleton />
+            </>
+          ))}
+        {/* Assignment Cards */}
+        {!isLoading &&
+          user &&
+          assignments.map((assignment) => (
+            <AssignmentCard
+              key={assignment._id}
+              assignment={assignment}
+              user={user}
+              onDeleteClick={setDeleteId}
+            />
+          ))}
       </div>
 
       {/* Delete Confirmation Modal */}

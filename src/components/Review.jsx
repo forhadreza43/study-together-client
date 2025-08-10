@@ -3,6 +3,7 @@ import axios from "axios";
 import useAuth from "../hook/useAuth";
 import { Link, useNavigate } from "react-router";
 import ReviewCard from "./ReviewCard";
+import ReviewCardSkeleton from "./skeleton/ReviewCardSkeleton";
 
 const Review = () => {
   const navigate = useNavigate();
@@ -45,6 +46,13 @@ const Review = () => {
             </div>
 
       <div className="gap-3 flex mb-3">
+        {reviews.length === 0 && (
+          <>
+            <ReviewCardSkeleton />
+            <ReviewCardSkeleton />
+            <ReviewCardSkeleton />
+          </>
+        )}
         {reviews.map((review, idx) => (
           <ReviewCard key={idx} review={review} />
         ))}

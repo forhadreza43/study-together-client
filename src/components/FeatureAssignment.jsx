@@ -4,7 +4,7 @@ import AssignmentCard from "./AssignmentCard";
 import axios from "axios";
 import useAuth from "../hook/useAuth";
 import { Link, Navigate } from "react-router";
-
+import AssignmentCardSkeleton from "./skeleton/AssignmentCardSkeleton";
 const FeatureAssignment = () => {
   const [assignments, setAssignments] = useState([]);
   const { user } = useAuth();
@@ -28,6 +28,13 @@ const FeatureAssignment = () => {
         </span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {!assignments.length && (
+          <>
+            <AssignmentCardSkeleton />
+            <AssignmentCardSkeleton />
+            <AssignmentCardSkeleton />
+          </>
+        )}
         {assignments.map((assignment) => (
           <AssignmentCard
             key={assignment._id}

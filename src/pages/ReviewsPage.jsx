@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReviewCard from "../components/ReviewCard";
 import Loading from "../components/Loading";
+import ReviewCardSkeleton from "../components/skeleton/ReviewCardSkeleton";
 
 const fetchReviews = async ({ queryKey }) => {
   const [_key, page] = queryKey;
@@ -26,7 +27,7 @@ const ReviewsPage = () => {
     keepPreviousData: true,
   });
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
   if (isError) {
     return (
@@ -36,7 +37,7 @@ const ReviewsPage = () => {
     );
   }
 
-  if (reviews.length === 0) {
+  if (reviews.length === 0 && !isLoading) {
     return (
       <div className="text-center mt-10 text-gray-500">No reviews found.</div>
     );
@@ -44,9 +45,18 @@ const ReviewsPage = () => {
 
   return (
     <div className="lg:w-full mx-auto mt-10">
-      <h2 className="text-2xl font-bold mb-4 text-center dark:text-gray-100">All Reviews</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center dark:text-gray-100">
+        All Reviews
+      </h2>
       <div className="gap-3 mb-6  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {reviews.map((review, idx) => (
+        {isLoading && (
+          <>
+            <ReviewCardSkeleton />
+            <ReviewCardSkeleton />
+            <ReviewCardSkeleton />
+          </>
+        )}
+        {!isLoading && reviews.length > 0 && reviews.map((review, idx) => (
           <ReviewCard key={idx} review={review} />
         ))}
       </div>

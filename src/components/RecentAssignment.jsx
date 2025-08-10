@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AssignmentCard from "./AssignmentCard";
 import useAuth from "../hook/useAuth";
 import axios from "axios";
+import AssignmentCardSkeleton from "./skeleton/AssignmentCardSkeleton";
 
 const RecentAssignment = () => {
   const [assignments, setAssignments] = useState([]);
@@ -23,6 +24,13 @@ const RecentAssignment = () => {
         Recent Assignments
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {!assignments.length && (
+          <>
+            <AssignmentCardSkeleton />
+            <AssignmentCardSkeleton />
+            <AssignmentCardSkeleton />
+          </>
+        )}
         {assignments.map((assignment) => (
           <AssignmentCard
             key={assignment._id}
