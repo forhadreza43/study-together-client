@@ -7,6 +7,7 @@ import { useEffect, useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 import Loading from "../../components/Loading";
 import useAxiosSecure from "../../hook/useAxiosSecure";
+import AssignmentCard from "../../components/AssignmentCard";
 
 const Assignments = () => {
   const { user } = useAuth();
@@ -101,51 +102,12 @@ const Assignments = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {assignments.map((assignment) => (
-          <div
+          <AssignmentCard
             key={assignment._id}
-            className="rounded bg-base-100 dark:bg-gray-900 shadow-lg border border-blue-300 p-4 flex flex-col justify-between"
-          >
-            <div>
-              <img
-                src={assignment.thumbnail}
-                alt={assignment.title}
-                className="rounded w-full h-50 object-cover"
-              />
-              <div className="my-3 dark:text-gray-300">
-                <h2 className="text-xl font-semibold">{assignment.title}</h2>
-                <p>Marks: {assignment.marks}</p>
-                <p>
-                  Difficulty:{" "}
-                  <span className="capitalize">{assignment.difficulty}</span>
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => navigate(`/assignment/${assignment._id}`)}
-                className="btn btn-info btn-sm"
-              >
-                View
-              </button>
-
-              <button
-                onClick={() => navigate(`/update/${assignment._id}`)}
-                className="btn btn-warning btn-sm"
-              >
-                Update
-              </button>
-
-              {user?.email === assignment?.creator?.email && (
-                <button
-                  onClick={() => setDeleteId(assignment._id)}
-                  className="btn btn-error btn-sm"
-                >
-                  Delete
-                </button>
-              )}
-            </div>
-          </div>
+            assignment={assignment}
+            user={user}
+            onDeleteClick={setDeleteId}
+          />
         ))}
       </div>
 

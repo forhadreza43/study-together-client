@@ -60,22 +60,24 @@ const AssignmentDetails = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="flex items-center justify-center min-h-[90dvh]">
+    <div className="flex mt-10 items-center justify-center min-h-[90dvh]">
       <div className=" w-full mx-auto  p-6 bg-white shadow-md rounded dark:bg-gray-900">
-        <img src={assignment.thumbnail} alt="" className="rounded mb-4" />
-        <div className="dark:text-gray-300">
-          <h1 className="text-2xl font-bold">{assignment.title}</h1>
-          <p className="my-2">{assignment.description}</p>
-          <p>
-            <strong>Marks:</strong> {assignment.marks}
-          </p>
-          <p>
-            <strong>Difficulty:</strong> {assignment.difficulty}
-          </p>
-          <p>
-            <strong>Due Date:</strong>{" "}
-            {new Date(assignment.dueDate).toLocaleDateString()}
-          </p>
+        <div className="">
+          <img src={assignment.thumbnail} alt="" className="rounded mb-4" />
+          <div className="dark:text-gray-300">
+            <h1 className="text-2xl font-bold">{assignment.title}</h1>
+            <p className="my-2">{assignment.description}</p>
+            <p>
+              <strong>Marks:</strong> {assignment.marks}
+            </p>
+            <p>
+              <strong>Difficulty:</strong> {assignment.difficulty}
+            </p>
+            <p>
+              <strong>Due Date:</strong>{" "}
+              {new Date(assignment.dueDate).toLocaleDateString()}
+            </p>
+          </div>
         </div>
 
         <button

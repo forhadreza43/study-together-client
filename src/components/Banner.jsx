@@ -18,7 +18,7 @@ const Banner = () => {
         Collaborate, create, and conquer assignments together. Empower your
         learning journey with a smart group-study platform.
       </p>
-      <Link to={redirect} className="btn btn-accent mt-6 rounded-full">
+      <Link to={redirect} className="btn dark:bg-blue-500 bg-primary mt-6 rounded-full border-none text-white">
         Explore Assignments
       </Link>
     </motion.div>

@@ -10,7 +10,7 @@ const AssignmentCard = ({ assignment, user, onDeleteClick }) => {
         <img
           src={assignment.thumbnail}
           alt={assignment.title}
-          className="rounded"
+          className="rounded w-full object-cover"
         />
         <div className="my-3 dark:text-gray-300">
           <h2 className="text-xl font-semibold">{assignment.title}</h2>
@@ -25,14 +25,14 @@ const AssignmentCard = ({ assignment, user, onDeleteClick }) => {
       <div className="flex gap-2">
         <button
           onClick={() => navigate(`/assignment/${assignment._id}`)}
-          className="btn btn-info btn-sm"
+          className="btn border-none dark:bg-blue-500 bg-primary text-white btn-sm"
         >
           View
         </button>
 
         <button
           onClick={() => navigate(`/update/${assignment._id}`)}
-          className="btn btn-warning btn-sm"
+          className="btn btn-outline dark:border-white hover:text-white dark:text-white hover:bg-blue-500 btn-sm"
         >
           Update
         </button>

@@ -7,7 +7,10 @@ const Footer = () => {
       <div className="max-w-7xl w-11/12 mx-auto py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Brand Info */}
         <div>
-          <Link to="/" className="text-2xl text-blue-700 dark:text-blue-500 font-bold flex items-center">
+          <Link
+            to="/"
+            className="text-2xl text-blue-700 dark:text-blue-500 font-bold flex items-center"
+          >
             <img src="./study.svg" alt="" className="w-9 mr-2 mb-1" />
             StudyTogether
           </Link>
@@ -32,13 +35,8 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/myAssignments" className="link link-hover">
+              <Link to="/mySubmittedAssignments" className="link link-hover">
                 My Attempts
-              </Link>
-            </li>
-            <li>
-              <Link to="/pending" className="link link-hover">
-                Pending Evaluation
               </Link>
             </li>
           </ul>
@@ -49,7 +47,7 @@ const Footer = () => {
           <h3 className="footer-title">Connect</h3>
           <div className="flex gap-4 mt-2">
             <a
-              href="https://facebook.com"
+              href="https://facebook.com/forhadreza000"
               target="_blank"
               rel="noreferrer"
               className="btn btn-sm btn-circle btn-outline"
@@ -57,7 +55,7 @@ const Footer = () => {
               <FaFacebookF />
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/forhadreza43"
               target="_blank"
               rel="noreferrer"
               className="btn btn-sm btn-circle btn-outline"
@@ -65,7 +63,7 @@ const Footer = () => {
               <FaGithub />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/rezaforhad"
               target="_blank"
               rel="noreferrer"
               className="btn btn-sm btn-circle btn-outline"
