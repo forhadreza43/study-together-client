@@ -100,17 +100,15 @@ const Assignments = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {isLoading ||
-          ((!user || isLoading) && (
-            <>
-              <AssignmentCardSkeleton />
-              <AssignmentCardSkeleton />
-              <AssignmentCardSkeleton />
-            </>
-          ))}
+        {isLoading && (
+          <>
+            <AssignmentCardSkeleton />
+            <AssignmentCardSkeleton />
+            <AssignmentCardSkeleton />
+          </>
+        )}
         {/* Assignment Cards */}
         {!isLoading &&
-          user &&
           assignments.map((assignment) => (
             <AssignmentCard
               key={assignment._id}

@@ -1,8 +1,9 @@
-// src/components/AssignmentCard.jsx
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const AssignmentCard = ({ assignment, user, onDeleteClick }) => {
   const navigate = useNavigate();
+  const isOwner =
+    user && user.email && user.email === assignment.creator?.email;
 
   return (
     <div className="rounded dark:border-none bg-base-100 dark:bg-gray-900 shadow-lg border border-blue-300 p-4 flex flex-col justify-between ">
@@ -37,7 +38,7 @@ const AssignmentCard = ({ assignment, user, onDeleteClick }) => {
           Update
         </button>
 
-        {user.email === assignment.creator?.email && (
+        {isOwner && (
           <button
             onClick={() => onDeleteClick(assignment._id)}
             className="btn btn-error btn-sm"
