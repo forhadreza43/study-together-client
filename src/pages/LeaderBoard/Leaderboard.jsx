@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import LeaderboardSkeleton from "../../components/skeleton/LeaderboardSkeleton";
 
 const fetchLeaderboard = async ({ queryKey }) => {
   const [_key, page] = queryKey;
@@ -25,7 +26,7 @@ const Leaderboard = () => {
     keepPreviousData: true,
   });
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
   if (isError) {
     return (
@@ -37,31 +38,38 @@ const Leaderboard = () => {
 
   return (
     <div className="w-full mx-auto mt-10 dark:text-gray-100">
-      <h2 className="text-2xl font-bold mb-4 text-center dark:text-gray-100">Leaderboard</h2>
-      <table className="table-auto w-full mb-4 border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100 dark:bg-gray-900">
-            <th className="border border-gray-300 px-4 py-2">#</th>
-            <th className="border border-gray-300 px-4 py-2">Name</th>
-            <th className="border border-gray-300 px-4 py-2">Email</th>
-            <th className="border border-gray-300 px-4 py-2">Assignments</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboard.map((user, idx) => (
-            <tr key={user._id}>
-              <td className="border border-gray-300 px-4 py-2">
-                {(page - 1) * 10 + idx + 1}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">{user.name}</td>
-              <td className="border border-gray-300 px-4 py-2">{user._id}</td>
-              <td className="border border-gray-300 px-4 py-2">
-                {user.assignmentCount}
-              </td>
+      <h2 className="text-2xl font-bold mb-4 text-center dark:text-gray-100">
+        Leaderboard
+      </h2>
+      {isLoading && <LeaderboardSkeleton />}
+      {!isLoading && (
+        <table className="table-auto w-full mb-4 border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100 dark:bg-gray-900">
+              <th className="border border-gray-300 px-4 py-2">#</th>
+              <th className="border border-gray-300 px-4 py-2">Name</th>
+              <th className="border border-gray-300 px-4 py-2">Email</th>
+              <th className="border border-gray-300 px-4 py-2">Assignments</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {leaderboard.map((user, idx) => (
+              <tr key={user._id}>
+                <td className="border border-gray-300 px-4 py-2">
+                  {(page - 1) * 10 + idx + 1}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {user.name}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">{user._id}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {user.assignmentCount}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       <div className="flex justify-between max-w-sm mt-10 mx-auto">
         <button
           className="btn btn-primary"

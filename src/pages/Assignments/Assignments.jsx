@@ -39,7 +39,7 @@ const Assignments = () => {
     mutationFn: (id) => {
       return axiosSecure.delete(
         `${import.meta.env.VITE_API_URL}/assignments/${id}?email=${
-          user.email || ""
+          user?.email || ""
         }`
       );
     },
@@ -101,7 +101,7 @@ const Assignments = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {isLoading ||
-          (!user && (
+          ((!user || isLoading) && (
             <>
               <AssignmentCardSkeleton />
               <AssignmentCardSkeleton />

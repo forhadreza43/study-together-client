@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 import Loading from "../../components/Loading";
 import NotFound from "../../components/NotFound";
+import PendingAssignmentsSkeleton from "../../components/skeleton/PendingAssignmentsSkeleton";
 
 const PendingAssignments = () => {
   const { user } = useAuth();
@@ -18,12 +19,12 @@ const PendingAssignments = () => {
     queryFn: async () => {
       const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/pending-submitted-assignments?email=${
-          user.email
+          user?.email
         }`
       );
       return res.data;
     },
-    enabled: !!user.email,
+    enabled: !!user?.email,
   });
 
   const mutation = useMutation({
@@ -56,43 +57,49 @@ const PendingAssignments = () => {
     });
   };
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
   return (
     <div className="w-full mx-auto mt-10">
-      {pendingAssignments.length === 0 ? (
-        <NotFound />
-      ) : (
-        <>
-          <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
-            Pending Assignments
-          </h2>
+      <>
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
+          Pending Assignments
+        </h2>
+        {(!user || isLoading) && <PendingAssignmentsSkeleton />}
+
+        {!isLoading && pendingAssignments.length > 0 && (
           <div className="overflow-x-auto dark:text-gray-300">
             <table className="table w-full">
               <thead className="bg-base-200 dark:bg-gray-700 dark:text-gray-300">
                 <tr>
-                  <th>#</th>
-                  <th>Assignment Title</th>
-                  <th>Marks</th>
-                  <th>Examinee</th>
-                  <th>Action</th>
+                  <th className="w-10">#</th>
+                  <th>Title</th>
+                  <th>Submitted At</th>
+                  <th>Doc Link</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {pendingAssignments.map((submission, i) => (
-                  <tr key={submission._id}>
-                    <td>{i + 1}</td>
-                    <td>{submission.assignmentTitle}</td>
-                    <td>{submission.assignmentMarks}</td>
-                    <td>{submission.userEmail}</td>
+                {pendingAssignments.map((assignment, index) => (
+                  <tr key={assignment._id}>
+                    <td>{index + 1}</td>
+                    <td>{assignment.title}</td>
+                    <td>{new Date(assignment.submittedAt).toLocaleString()}</td>
+                    <td>
+                      <a
+                        href={assignment.docLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        View Submission
+                      </a>
+                    </td>
                     <td>
                       <button
-                        className="btn btn-sm btn-info"
-                        onClick={() => {
-                          setSelected(submission);
-                          setForm({ obtainedMarks: "", feedback: "" });
-                        }}
+                        className="btn btn-primary btn-sm"
+                        onClick={() => setSelected(assignment)}
                       >
-                        Give Mark
+                        Mark
                       </button>
                     </td>
                   </tr>
@@ -100,8 +107,9 @@ const PendingAssignments = () => {
               </tbody>
             </table>
           </div>
-        </>
-      )}
+        )}
+        {user && !isLoading && pendingAssignments.length === 0 && <NotFound />}
+      </>
 
       {/* Modal */}
       {selected && (

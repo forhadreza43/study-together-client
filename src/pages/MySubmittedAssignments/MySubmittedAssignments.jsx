@@ -3,35 +3,36 @@ import useAuth from "../../hook/useAuth";
 import Loading from "../../components/Loading";
 import NotFound from "../../components/NotFound";
 import useAxiosSecure from "../../hook/useAxiosSecure";
+import MySubmittedAssignmentsSkeleton from "../../components/skeleton/MySubmittedAssignmentsSkeleton";
 
 const MySubmittedAssignments = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const { data: submissions = [], isLoading } = useQuery({
-    queryKey: ["submittedAssignments", user.email],
+    queryKey: ["submittedAssignments", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/submitted-assignments?email=${
-          user.email
+          user?.email
         }`
       );
       return res.data;
     },
-    enabled: !!user.email,
+    enabled: !!user?.email,
   });
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
   return (
     <div className="w-full mx-auto ">
-      {submissions.length === 0 ? (
-        <NotFound />
-      ) : (
-        <>
-          <h2 className="text-3xl font-bold mt-10 mb-6 text-center text-gray-900 dark:text-gray-100">
-            My Assignments
-          </h2>
+      {user && !isLoading && submissions.length === 0 && <NotFound />}
+      <>
+        <h2 className="text-3xl font-bold mt-10 mb-6 text-center text-gray-900 dark:text-gray-100">
+          My Assignments
+        </h2>
+        {(!user || isLoading) && <MySubmittedAssignmentsSkeleton />}
+        {user && !isLoading &&  
           <div className="overflow-x-auto dark:text-gray-300">
             <table className="table w-full">
               <thead className="bg-base-200 dark:bg-gray-700 dark:text-gray-300">
@@ -58,8 +59,8 @@ const MySubmittedAssignments = () => {
               </tbody>
             </table>
           </div>
-        </>
-      )}
+        }
+      </>
     </div>
   );
 };
